@@ -1,0 +1,13 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+
+.btn {
+    margin: 10%;
+}
+
+.titulo{
+    margin-top: 2%;
+    text-align: center;
+}
