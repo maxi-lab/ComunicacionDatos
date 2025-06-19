@@ -36,6 +36,7 @@ botonGrabar.addEventListener("click", async () => {
 
         // Enviar al backend
       const formData = new FormData();
+      formData.append("title", "Grabación web"); // Titulo de la grabacion
       formData.append('audio_file', audioBlob, 'grabacion.webm');
 
       fetch('http://127.0.0.1:8000/api/audio/', {
