@@ -32,6 +32,24 @@ botonGrabar.addEventListener("click", async () => {
         enlaceDescarga.download = "grabacion.webm";
         enlaceDescarga.textContent = "Descargar audio";
         document.body.appendChild(enlaceDescarga);*/
+
+
+        // Enviar al backend
+      const formData = new FormData();
+      formData.append('audio_file', audioBlob, 'grabacion.webm');
+
+      fetch('http://127.0.0.1:8000/api/audio/', {
+        method: 'POST',
+        body: formData
+      })
+      .then(response => response.json())
+      .then(data => {
+        console.log("Respuesta del servidor:", data);
+      })
+      .catch(error => {
+        console.error("Error al subir el audio:", error);
+      });
+
       
       };
 
