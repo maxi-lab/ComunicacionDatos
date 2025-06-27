@@ -13,22 +13,25 @@ const { createFFmpeg, fetchFile } = FFmpeg;
 //const ffmpeg = createFFmpeg({ log: true });
 
 async function fetchUltimoAudio() {
-    const response = await fetch('http://127.0.0.1:8000/ultimo-audio/');
-    const data = await response.json();
-    const audioBlob = await fetch(data.audio_url).then(r => r.blob());
-    return audioBlob;
-}
+    return fetch("http://127.0.0.1:8000/ultimo-audio/")
+    .then(response => response.json())
+    .then(data => {
+        return data.id
+    })
+    .catch(error => console.error('Error:', error));
 
+}
 
 //const { createFFmpeg, fetchFile } = FFmpeg;
 
 
 
 async function convertirYDescargarMP3() {
-   fetch("http://127.0.0.1:8000/audio/1/to-mp3/")
+    const audioId = await fetchUltimoAudio();
+   fetch(`http://127.0.0.1:8000/audio/${audioId}/to-mp3/`)
    .then(response => console.log(response))
    .catch(error => console.error('Error:', error));
-    fetch("http://127.0.0.1:8000/audio/1/download/").then(response => {
+    fetch(`http://127.0.0.1:8000/audio/${audioId}/download/`).then(response => {
     console.log(response);
     return response.blob();})
     .then(blob=>{
@@ -36,7 +39,7 @@ async function convertirYDescargarMP3() {
         const a = document.createElement('a');
         a.style.display = 'none';
         a.href = url;
-        a.download = 'audio.mp3';
+        a.download = `audio${audioId}.mp3`;
         a.click();
         window.URL.revokeObjectURL(url);
 
@@ -45,10 +48,11 @@ async function convertirYDescargarMP3() {
 }
 
 async function convertirYDescargarWAV() {
-    fetch("http://127.0.1:8000/audio/1/to-wav/")
+    const audioId = await fetchUltimoAudio();
+    fetch(`http://127.0.1:8000/audio/${audioId}/to-wav/`)
     .then(response => console.log(response))
     .catch(error => console.error('Error:', error));
-    fetch("http://127.0.1:8000/audio/1/download/")
+    fetch(`http://127.0.1:8000/audio/${audioId}/download/`)
     .then(response => {
         console.log(response);
         return response.blob();
@@ -58,7 +62,7 @@ async function convertirYDescargarWAV() {
         const a = document.createElement('a');
         a.style.display = 'none';
         a.href = url;
-        a.download = 'audio.wav';
+        a.download = `audio${audioId}.wav`;
         a.click();
         window.URL.revokeObjectURL(url);
     })
