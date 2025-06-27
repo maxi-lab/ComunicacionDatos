@@ -44,12 +44,32 @@ async function convertirYDescargarMP3() {
     .catch(error => console.error('Error:', error));
 }
 
+async function convertirYDescargarWAV() {
+    fetch("http://127.0.1:8000/audio/1/to-wav/")
+    .then(response => console.log(response))
+    .catch(error => console.error('Error:', error));
+    fetch("http://127.0.1:8000/audio/1/download/")
+    .then(response => {
+        console.log(response);
+        return response.blob();
+    })
+    .then(blob => {
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.style.display = 'none';
+        a.href = url;
+        a.download = 'audio.wav';
+        a.click();
+        window.URL.revokeObjectURL(url);
+    })
+    .catch(error => console.error('Error:', error));
+}
 
 //await ffmpeg.load(); // Carga FFmpeg antes de usarlo
 
 //Botones para descargar
 document.getElementById("wav").addEventListener("click", () => {
-    //convertirYDescargar('wav');
+    convertirYDescargarWAV();
 });
 
 document.getElementById("mp3").addEventListener("click", () => {
