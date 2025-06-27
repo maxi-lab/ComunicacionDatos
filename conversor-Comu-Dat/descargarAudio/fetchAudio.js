@@ -25,26 +25,21 @@ async function fetchUltimoAudio() {
 
 
 async function convertirYDescargar(formato) {
-    if (!ffmpeg.isLoaded()) { await ffmpeg.load();}
+   const response=fetch("http://127.0.0.1:8000/audio/1/to-mp3/"). then(response => console.log(response)).catch(error => console.error('Error:', error));
+   const audio=fetch("http://127.0.0.1:8000/audio/1/download/").then(response => {
+    console.log(response);
+    return response.blob();})
+    .then(blob=>{
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.style.display = 'none';
+        a.href = url;
+        a.download = 'audio.mp3';
+        a.click();
+        window.URL.revokeObjectURL(url);
 
-    const webmBlob = await fetchUltimoAudio();
-    const webmFile = new File([webmBlob], 'audio.webm');
-
-    ffmpeg.FS('writeFile', 'audio.webm', await fetchFile(webmFile));
-
-    const outputFile = formato === 'mp3' ? 'output.mp3' : 'output.wav';
-
-    await ffmpeg.run('-i', 'audio.webm', outputFile);
-    const data = ffmpeg.FS('readFile', outputFile);
-
-    const url = URL.createObjectURL(new Blob([data.buffer], { type: `audio/${formato}` }));
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `audio.${formato}`;
-    a.click();
-
-    ffmpeg.FS('unlink', 'audio.webm');
-    ffmpeg.FS('unlink', outputFile);
+    })
+    .catch(error => console.error('Error:', error));
 }
 
 
