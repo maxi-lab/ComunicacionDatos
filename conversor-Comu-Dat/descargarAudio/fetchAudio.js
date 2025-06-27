@@ -24,9 +24,11 @@ async function fetchUltimoAudio() {
 
 
 
-async function convertirYDescargar(formato) {
-   const response=fetch("http://127.0.0.1:8000/audio/1/to-mp3/"). then(response => console.log(response)).catch(error => console.error('Error:', error));
-   const audio=fetch("http://127.0.0.1:8000/audio/1/download/").then(response => {
+async function convertirYDescargarMP3() {
+   fetch("http://127.0.0.1:8000/audio/1/to-mp3/")
+   .then(response => console.log(response))
+   .catch(error => console.error('Error:', error));
+    fetch("http://127.0.0.1:8000/audio/1/download/").then(response => {
     console.log(response);
     return response.blob();})
     .then(blob=>{
@@ -47,10 +49,10 @@ async function convertirYDescargar(formato) {
 
 //Botones para descargar
 document.getElementById("wav").addEventListener("click", () => {
-    convertirYDescargar('wav');
+    //convertirYDescargar('wav');
 });
 
 document.getElementById("mp3").addEventListener("click", () => {
-    convertirYDescargar('mp3');
+    convertirYDescargarMP3('mp3');
 });
 
