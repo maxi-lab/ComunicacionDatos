@@ -17,36 +17,59 @@
     </header>
     <div class="container text-center">
       <!--Grabar Audio-->
-      <div class="row ">
+      <div class="row " id="menuGrabar">
         <div class="col d-flex flex-column align-items-center">
-          <button type="button" class="btn btn-primary mb-2" id="grabar">Grabar audio</button>
+          <button type="button" class="btn btn-primary mb-3 mt-2" id="grabar">Grabar audio</button>
+          
           <!--Reproduce el audio grabado-->
           <audio id="audioPlayback" controls></audio>
+
         </div>
+        <div class="row" id="formCalidadTasa">
+          <!--Convertir Audio a distintas tazas de muestreo-->
+          <div class="col form">
+            <h5>Selecciona una tasa de muestreo</h5>
+            <form id="formTasaMuestreo" action="#" method="get">
 
-        <!--Convertir Audio a distintas tazas de muestreo-->
-        <div class="col form">
-          <p>Selecciona una tasa de muestreo</p>
-          <form id="formTasaMuestreo" action="#" method="get">
+              <input type="radio" name="tasaMuestreo" id="tasaOriginal">
+              <label for="tasaOriginal">Tasa Original</label><br>
 
-            <input type="radio" name="tasaMuestreo" id="tasaOriginal">
-            <label for="tasaOriginal">Tasa Original</label><br>
+              <input type="radio" name="tasaMuestreo" id="tasa8kHz">
+              <label for="tasa8kHz">Tasa de 8kHz</label><br>
+            
+              <input type="radio" name="tasaMuestreo" id="tasa16kHz">
+              <label for="tasa8kHz">Tasa de 16kHz</label><br>
+            
+              <input type="radio" name="tasaMuestreo" id="tasa44kHz">
+              <label for="tasa44kHz">Tasa de 44.1kHz</label><br>
 
-            <input type="radio" name="tasaMuestreo" id="tasa8kHz">
-            <label for="tasa8kHz">Tasa de 8kHz</label><br>
-          
-            <input type="radio" name="tasaMuestreo" id="tasa16kHz">
-            <label for="tasa8kHz">Tasa de 16kHz</label><br>
-          
-            <input type="radio" name="tasaMuestreo" id="tasa44kHz">
-            <label for="tasa44kHz">Tasa de 44.1kHz</label><br>
+              <input type="radio" name="tasaMuestreo" id="tasa96kHz">
+              <label for="tasa96kHz">Tasa de 96kHz</label><br>
+            </form>
 
-            <input type="radio" name="tasaMuestreo" id="tasa96kHz">
-            <label for="tasa96kHz">Tasa de 96kHz</label><br>
-          </form>
 
-          <button type="button" class="btn btn-primary" id="convertir">Convertir audio</button>
+          </div> 
+
+          <!--Elige CALIDAD del audio de 8, 16 o 24 bits-->
+          <div class="col form">
+            <h5>Elegir calidad</h5>
+            <form action="#">
+              
+              <input type="radio" name="calidad" id="calidad8Bit">
+              <label for="calidad8Bit">Baja (8 bits)</label><br>
+            
+              <input type="radio" name="calidad" id="calidad16Bit">
+              <label for="calidad16Bit">Media (16 bits)</label><br>
+
+              <input type="radio" name="calidad" id="calidad24Bit">
+              <label for="calidad24Bit">Alta (24 bits)</label>
+
+            </form>
+          </div>         
         </div>
+        
+        <button type="button" class="btn btn-primary" id="convertir">Convertir audio</button>
+
       </div>
 
 
