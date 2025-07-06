@@ -28,12 +28,17 @@ async function fetchUltimoAudio() {
 
 
 let selectedSampleRate = null;
+let selectedBitDepth = null;
 
 document.getElementById("convertir").addEventListener("click", () => {
     selectedSampleRate = getSelectedSampleRate();
     console.log("Tasa seleccionada:", selectedSampleRate);
     // Opcional: Avisar al usuario que la tasa fue seleccionada
     alert(`Tasa seleccionada: ${selectedSampleRate ?? 'Tasa Original'}`);
+    selectedBitDepth = getSelectedBitDepth();
+        console.log("Bit de profundidad seleccionado:", selectedBitDepth);
+    // Opcional: Avisar al usuario que el bit de cuantizacion
+    alert(`Tasa seleccionada: ${selectedBitDepth ?? 'Tasa Original'}`);
 });
 
 function getSelectedSampleRate() {
@@ -52,15 +57,32 @@ function getSelectedSampleRate() {
   return null;
 }
 
+function getSelectedBitDepth() {
+    const radios = document.querySelectorAll('input[name="profundidadBits"]'); // Assuming 'profundidadBits' is the name of your radio group
+    for (const radio of radios) {
+        if (radio.checked) {
+            switch (radio.id) {
+                case 'bitOriginal': return null; // sin cambio de profundidad de bits
+                case 'calidad8Bit': return 8;
+                case 'calidad16Bit': return 16;
+                case 'calidad24Bit': return 24;
+            }
+        }
+    }
+    return null;
+}
+
+
 
 
 async function convertirYDescargarMP3() {
-    if (selectedSampleRate === undefined) {
-        alert('Primero selecciona una tasa y haz click en "Convertir"');
+    if (selectedSampleRate === undefined || selectedBitDepth === undefined) {
+        alert('Primero selecciona una tasa de muestreo y una profundidad de bits, luego haz click en "Convertir".');
         return;
     }
     const audioId = await fetchUltimoAudio();
-    fetch(`http://127.0.0.1:8000/audio/${audioId}/to-mp3/?sample_rate=${selectedSampleRate ?? ''}`)
+    // Pasa ambos parámetros al backend
+    fetch(`http://127.0.0.1:8000/audio/${audioId}/to-mp3/?sample_rate=${selectedSampleRate ?? ''}&bit_depth=${selectedBitDepth ?? ''}`)
        .then(response => console.log(response))
        .catch(error => console.error('Error:', error));
     fetch(`http://127.0.0.1:8000/audio/${audioId}/download/`).then(response => {
@@ -79,12 +101,13 @@ async function convertirYDescargarMP3() {
 }
 
 async function convertirYDescargarWAV() {
-    if (selectedSampleRate === undefined) {
-        alert('Primero selecciona una tasa y haz click en "Convertir"');
+    if (selectedSampleRate === undefined || selectedBitDepth === undefined) {
+        alert('Primero selecciona una tasa de muestreo y una profundidad de bits, luego haz click en "Convertir".');
         return;
     }
     const audioId = await fetchUltimoAudio();
-    fetch(`http://127.0.0.1:8000/audio/${audioId}/to-wav/?sample_rate=${selectedSampleRate ?? ''}`)
+    // Pasa ambos parámetros al backend
+    fetch(`http://127.0.0.1:8000/audio/${audioId}/to-wav/?sample_rate=${selectedSampleRate ?? ''}&bit_depth=${selectedBitDepth ?? ''}`)
     .then(response => console.log(response))
     .catch(error => console.error('Error:', error));
     fetch(`http://127.0.0.1:8000/audio/${audioId}/download/`)

@@ -1,4 +1,3 @@
-// grabacion.js
 
 let mediaRecorder;
 let audioChunks = [];
